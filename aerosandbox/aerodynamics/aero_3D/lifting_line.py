@@ -42,7 +42,7 @@ class LiftingLine(ImplicitAnalysis):
     def __init__(self,
                  airplane: Airplane,
                  op_point: OperatingPoint,
-                 run_symmetric_if_possible=True,
+                 run_symmetric_if_possible=False,
                  verbose=True,
                  spanwise_resolution=8,  # TODO document
                  spanwise_spacing="cosine",  # TODO document,
@@ -80,17 +80,17 @@ class LiftingLine(ImplicitAnalysis):
         self.vortex_core_radius = vortex_core_radius
 
         ### Determine whether you should run the problem as symmetric
-        self.run_symmetric = False
-        if self.run_symmetric_if_possible:
-            try:
-                self.run_symmetric = (  # Satisfies assumptions
-                        self.op_point.beta == 0 and
-                        self.op_point.p == 0 and
-                        self.op_point.r == 0 and
-                        self.airplane.is_entirely_symmetric()
-                )
-            except RuntimeError:  # Required because beta, p, r, etc. may be non-numeric (e.g. opti variables)
-                pass
+        #self.run_symmetric = False
+        #if self.run_symmetric_if_possible:
+            #try:
+                #self.run_symmetric = (  # Satisfies assumptions
+                        #self.op_point.beta == 0 and
+                        #self.op_point.p == 0 and
+                        #self.op_point.r == 0 and
+                        #self.airplane.is_entirely_symmetric()
+                #)
+            #except RuntimeError:  # Required because beta, p, r, etc. may be #non-numeric (e.g. opti variables)
+                #pass
 
     def run(self) -> Dict:
         self.setup_mesh()

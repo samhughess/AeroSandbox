@@ -1,7 +1,9 @@
 from aerosandbox.numpy import sin, cos, linalg
 from aerosandbox.numpy.array import array
 import numpy as _onp
-from typing import Union, List
+from typing import Union, List, Any
+import jax.numpy as jnp
+
 
 
 def rotation_matrix_2D(
@@ -17,8 +19,8 @@ def rotation_matrix_2D(
     Returns: The 2D rotation matrix
 
     """
-    s = sin(angle)
-    c = cos(angle)
+    s = jnp.sin(angle)
+    c = jnp.cos(angle)
     rot = [
         [c, -s],
         [s, c]
@@ -30,9 +32,9 @@ def rotation_matrix_2D(
 
 
 def rotation_matrix_3D(
-        angle: Union[float, _onp.ndarray],
-        axis: Union[_onp.ndarray, List, str],
-        as_array: bool = True,
+        angle: Union[float, jnp.ndarray],
+        axis: Union[jnp.ndarray, List[Any], str],
+        as_array: bool = False,
         axis_already_normalized: bool = False
 ):
     """
@@ -59,8 +61,8 @@ def rotation_matrix_3D(
     Returns:
         The rotation matrix, with type according to the parameter `as_array`.
     """
-    s = sin(angle)
-    c = cos(angle)
+    s = jnp.sin(angle)
+    c = jnp.cos(angle)
 
     if isinstance(axis, str):
         if axis.lower() == "x":
@@ -103,7 +105,7 @@ def rotation_matrix_3D(
     if as_array:
         return array(rot)
     else:
-        return rot
+        return jnp.array(rot)
 
 
 def rotation_matrix_from_euler_angles(
